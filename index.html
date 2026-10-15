@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Generador de RFQ</title>
+<title>Herramientas de trabajo</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
@@ -22,6 +22,7 @@
   --bg:#0f1719; --surface:#172225; --fg:#e3eaec; --muted:#93a3a9; --line:#2a383c;
   --accent:#5bb8bf; --accent-fg:#06282b; --accent-soft:#183a3d; --warn:#e3a24a; --warn-soft:#3a2b14; --ok:#6cc483; color-scheme:dark}
 *{box-sizing:border-box}
+[hidden]{display:none!important}
 body{background:var(--bg);color:var(--fg);font-family:var(--f-body);font-size:15px;line-height:1.45;
   padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:24px 48px}
 .wrap{max-width:1180px;margin:0 auto;display:grid;gap:24px}
@@ -59,7 +60,7 @@ input:focus-visible,textarea:focus-visible,button:focus-visible,.chip input:focu
 aside{position:sticky;top:calc(env(safe-area-inset-top,0px) + 16px);display:grid;gap:14px;min-width:0}
 .out{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:18px;display:grid;gap:14px}
 .out h2{margin:0;font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted)}
-.mono{font-family:var(--f-mono);font-size:.82rem;word-break:break-all;background:var(--bg);border:1px solid var(--line);border-radius:7px;padding:9px 10px}
+.mono{font-family:var(--f-mono);font-size:.82rem;overflow-wrap:anywhere;background:var(--bg);border:1px solid var(--line);border-radius:7px;padding:9px 10px}
 .kv{display:grid;gap:5px}
 .kv .top{display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:.78rem;font-weight:600}
 .copy{font:inherit;font-size:.74rem;border:1px solid var(--line);background:var(--surface);color:var(--fg);border-radius:6px;padding:2px 9px;cursor:pointer}
@@ -79,18 +80,54 @@ aside{position:sticky;top:calc(env(safe-area-inset-top,0px) + 16px);display:grid
 .filelabel{position:relative;overflow:hidden}
 .filelabel input{position:absolute;inset:0;opacity:0;cursor:pointer}
 @media (prefers-reduced-motion:no-preference){.chip span,.btn{transition:background .15s,border-color .15s}}
+/* app shell */
+header.app{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px 24px;border-bottom:1px solid var(--line);padding-bottom:14px}
+header.app h1{margin:0;font-size:1.25rem;font-weight:700;letter-spacing:-.01em}
+.tabs{display:flex;gap:4px;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:4px;max-width:100%;overflow-x:auto}
+.tabs button{font:inherit;font-size:.9rem;font-weight:600;border:0;background:none;color:var(--muted);padding:8px 14px;border-radius:7px;cursor:pointer;white-space:nowrap}
+.tabs button[aria-selected=true]{background:var(--accent);color:var(--accent-fg)}
+.tab{display:grid;gap:20px}
+.intro .tabtitle{margin:0;font-size:1.55rem;font-weight:700;letter-spacing:-.01em;text-wrap:balance}
+.intro p{margin:4px 0 0;color:var(--muted);max-width:62ch}
+.grid.wide{grid-template-columns:minmax(0,1fr) minmax(0,460px)}
+@media (max-width:980px){.grid.wide{grid-template-columns:minmax(0,1fr)}}
+select,input[type=time]{width:100%;font:inherit;color:var(--fg);background:var(--bg);border:1px solid var(--line);border-radius:7px;padding:8px 10px}
+.items{display:grid;gap:10px}
+.item{border:1px solid var(--line);border-radius:9px;padding:12px 14px 14px;display:grid;gap:12px;background:var(--bg)}
+.item input,.item select{background:var(--surface)}
+.itemhead{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.tag{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;padding:2px 9px;border-radius:99px;background:var(--accent-soft);color:var(--accent)}
+.tag.t-hotel,.tag.t-campo{background:var(--warn-soft);color:var(--warn)}
+.tag.t-nota,.tag.t-salida{background:var(--surface);color:var(--muted);border:1px solid var(--line)}
+.tools{display:flex;gap:4px}
+.ic{font:inherit;width:30px;height:30px;border-radius:6px;border:1px solid var(--line);background:var(--surface);color:var(--fg);cursor:pointer;line-height:1}
+.ic:disabled{opacity:.35;cursor:default}
+.ic.del:hover{color:var(--warn);border-color:var(--warn)}
+.adders{display:flex;flex-wrap:wrap;gap:8px}
+.add{font:inherit;font-size:.86rem;font-weight:600;color:var(--accent);background:none;border:1px dashed var(--accent);border-radius:7px;padding:7px 12px;cursor:pointer}
+.add:hover{background:var(--accent-soft)}
+.empty{margin:0;color:var(--muted);font-size:.88rem;padding:10px 0}
+.mail{background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:16px 18px;max-height:62vh;overflow:auto;font-size:.88rem;overflow-wrap:anywhere}
+.mail div{font-family:var(--f-body)!important;font-size:inherit!important;color:var(--fg)}
+.mail ul{padding-left:20px!important}
 </style>
 </head>
 <body>
 
 
 <div class="wrap">
-  <header class="top">
-    <div>
-      <h1>Detalles RFQ</h1>
-      <p>Llena los datos de la oportunidad y descarga el Excel con el formato del equipo, ya nombrado para enviar.</p>
-    </div>
+  <header class="app">
+    <h1>Herramientas de trabajo</h1>
+    <nav class="tabs" aria-label="Herramientas">
+      <button type="button" data-tab="rfq" aria-selected="true">Detalles RFQ</button>
+      <button type="button" data-tab="logistica" aria-selected="false">Logística de viaje</button>
+    </nav>
   </header>
+<section id="tab-rfq" class="tab">
+  <div class="intro">
+    <h2 class="tabtitle">Detalles RFQ</h2>
+    <p>Llena los datos de la oportunidad y descarga el Excel con el formato del equipo, ya nombrado para enviar.</p>
+  </div>
 
 
   <div class="grid">
@@ -99,7 +136,7 @@ aside{position:sticky;top:calc(env(safe-area-inset-top,0px) + 16px);display:grid
         <legend>Oportunidad</legend>
         <div class="f">
           <label for="nombre">Nombre de la oportunidad <span class="hint">se usa en el asunto y en el nombre del archivo</span></label>
-          <input type="text" id="nombre" placeholder="Ej. Suministro Licencia Fortinet CPO9 - SCADA POZOS">
+          <input type="text" id="nombre" placeholder="Nombre de la oportunidad">
         </div>
         <div class="row">
           <div class="f">
@@ -108,7 +145,7 @@ aside{position:sticky;top:calc(env(safe-area-inset-top,0px) + 16px);display:grid
           </div>
           <div class="f">
             <label for="consecutivo">Consecutivo <span class="cell">I18</span></label>
-            <input type="text" id="consecutivo" placeholder="PS-26-255-IC">
+            <input type="text" id="consecutivo" placeholder="Código del consecutivo">
           </div>
         </div>
         <div class="f">
@@ -126,7 +163,7 @@ aside{position:sticky;top:calc(env(safe-area-inset-top,0px) + 16px);display:grid
           </div>
           <div class="f">
             <label for="dirigidaCorreo">Correo <span class="cell">B4</span></label>
-            <input type="email" id="dirigidaCorreo" placeholder="contacto@cliente.com.co">
+            <input type="email" id="dirigidaCorreo" placeholder="correo@cliente.com">
           </div>
         </div>
       </fieldset>
@@ -155,7 +192,7 @@ aside{position:sticky;top:calc(env(safe-area-inset-top,0px) + 16px);display:grid
         </div>
         <div class="f">
           <label for="portal">Portal / medio de recepción <span class="cell">I11</span></label>
-          <input type="text" id="portal" list="portales" placeholder="Correo">
+          <input type="text" id="portal" list="portales" placeholder="Correo o portal">
           <datalist id="portales"><option value="Correo"><option value="Ariba"><option value="Portal del cliente"></datalist>
         </div>
         <div class="row">
@@ -181,7 +218,7 @@ aside{position:sticky;top:calc(env(safe-area-inset-top,0px) + 16px);display:grid
         </div>
         <div class="f">
           <label for="marcas">Marcas aceptadas <span class="cell">I16</span></label>
-          <input type="text" id="marcas" placeholder="HONEYWELL">
+          <input type="text" id="marcas" placeholder="Marcas aceptadas">
         </div>
       </fieldset>
 
@@ -194,11 +231,11 @@ aside{position:sticky;top:calc(env(safe-area-inset-top,0px) + 16px);display:grid
         <div class="row">
           <div class="f">
             <label for="entrega">Lugar y términos de entrega <span class="cell">B19</span></label>
-            <input type="text" id="entrega" placeholder="Ej. DDP, sitio de entrega">
+            <input type="text" id="entrega" placeholder="Término y sitio de entrega">
           </div>
           <div class="f">
             <label for="formaPago">Forma de pago <span class="cell">H20</span></label>
-            <input type="text" id="formaPago" placeholder="A CONVENIR">
+            <input type="text" id="formaPago" placeholder="Condición de pago">
           </div>
         </div>
       </fieldset>
@@ -240,6 +277,91 @@ aside{position:sticky;top:calc(env(safe-area-inset-top,0px) + 16px);display:grid
       </div>
     </aside>
   </div>
+</section>
+<section id="tab-logistica" class="tab" hidden>
+  <div class="intro">
+    <h2 class="tabtitle">Logística de viaje</h2>
+    <p>Arma la solicitud de viaje del ingreso a campo. Agrega o quita rutas, hospedajes y actividades según el viaje y copia el correo listo para pegar.</p>
+  </div>
+  <div class="grid wide">
+    <form id="lg" autocomplete="off" novalidate>
+      <fieldset>
+        <legend>Personal y fechas</legend>
+        <div class="f">
+          <label for="lg-ingenieros">Ingeniero(s) <span class="hint">uno por línea</span></label>
+          <textarea id="lg-ingenieros" rows="2" placeholder="Nombre del ingeniero"></textarea>
+        </div>
+        <div class="row">
+          <div class="f"><label for="lg-fechaViaje">Fecha de viaje</label><input type="date" id="lg-fechaViaje"></div>
+          <div class="f"><label for="lg-fechaIngreso">Ingreso a campo</label><input type="date" id="lg-fechaIngreso"></div>
+          <div class="f"><label for="lg-fechaSalida">Salida de campo</label><input type="date" id="lg-fechaSalida"></div>
+        </div>
+        <div class="hint" id="lg-duracion"></div>
+      </fieldset>
+
+      <fieldset>
+        <legend>Proyecto</legend>
+        <div class="row">
+          <div class="f"><label for="lg-cliente">Cliente</label><input type="text" id="lg-cliente" list="lg-dl-clientes" placeholder="Nombre del cliente"></div>
+          <div class="f"><label for="lg-servicio">Servicio</label><input type="text" id="lg-servicio" placeholder="Tipo de servicio"></div>
+        </div>
+        <div class="row">
+          <div class="f"><label for="lg-contactoNombre">Contacto HSE / Encargado</label><input type="text" id="lg-contactoNombre" list="lg-dl-contactos" placeholder="Nombre del contacto"></div>
+          <div class="f"><label for="lg-contactoTel">Teléfono</label><input type="text" id="lg-contactoTel" inputmode="tel" placeholder="+57 300 000 0000"></div>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>Logística</legend>
+        <p class="hint" style="margin:0">Los tramos salen en el correo en este orden. Usa las flechas para moverlos.</p>
+        <div id="lg-items" class="items"></div>
+        <div class="adders">
+          <button type="button" class="add" data-add="ruta">+ Ruta</button>
+          <button type="button" class="add" data-add="hotel">+ Hospedaje en hotel</button>
+          <button type="button" class="add" data-add="campo">+ Hospedaje en campo</button>
+          <button type="button" class="add" data-add="salida">+ Salida de campo</button>
+          <button type="button" class="add" data-add="nota">+ Línea libre</button>
+        </div>
+        <div class="yn"><span class="lbl">Requiere movilización interna</span><div class="chips" data-lgyn="movInterna"></div></div>
+        <div class="yn"><span class="lbl">Requiere viáticos / manutención</span><div class="chips" data-lgyn="viaticos"></div></div>
+      </fieldset>
+
+      <fieldset>
+        <legend>Actividades</legend>
+        <label class="chip"><input type="checkbox" id="lg-incluirActividades"><span>Incluir actividades en el correo</span></label>
+        <div class="f" id="lg-actWrap">
+          <label for="lg-actividades">Actividades <span class="hint">una por línea</span></label>
+          <textarea id="lg-actividades" rows="6" placeholder="Escribe una actividad por línea"></textarea>
+        </div>
+      </fieldset>
+
+    </form>
+
+    <aside>
+      <div class="out">
+        <div class="kv">
+          <div class="top"><span>Asunto sugerido</span><button type="button" class="copy" id="lg-copyAsunto">Copiar</button></div>
+          <div class="mono" id="lg-asunto"></div>
+        </div>
+        <div class="kv">
+          <div class="top"><span>Correo</span></div>
+          <div class="mail" id="lg-preview"></div>
+        </div>
+        <button type="button" class="btn primary" id="lg-copy">Copiar correo</button>
+        <div class="msg" id="lg-status" hidden></div>
+      </div>
+      <div class="out">
+        <button type="button" class="btn" id="lg-new">Nueva logística</button>
+        <div class="confirm" id="lg-confirm" hidden>
+          <span>Se borrarán los datos de esta logística. ¿Continuar?</span>
+          <div class="btns"><button type="button" class="btn" id="lg-cancelNew">Cancelar</button><button type="button" class="btn primary" id="lg-okNew">Borrar todo</button></div>
+        </div>
+        <span class="hint">El borrador se guarda en este navegador. Ciudades, hoteles, clientes y contactos que ya usaste aparecen como sugerencias.</span>
+      </div>
+    </aside>
+  </div>
+  <datalist id="lg-dl-ciudades"></datalist><datalist id="lg-dl-hoteles"></datalist><datalist id="lg-dl-clientes"></datalist><datalist id="lg-dl-contactos"></datalist>
+</section>
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/exceljs/4.4.0/exceljs.min.js"></script>
@@ -260,7 +382,7 @@ function cleanName(s){return (s||"").trim().replace(/[\\/:*?"<>|]+/g," ").replac
 function fileName(d){return `RFQ_${fileDate(d.fechaLlegada)||"DDMMAAAA"}_${cleanName(d.nombre)||"Nombre_Oportunidad"}.xlsx`}
 function autoAsuntoCorreo(d){return `RFQ: ${subjectDate(d.fechaLlegada)||"D/M/AAAA"}_${(d.nombre||"").trim()}`}
 function autoAsuntoOferta(d){return (d.nombre||"").trim().toUpperCase()}
-function autoAlcance(d){const n=(d.nombre||"").trim();return n?`Sondeo de mercado de ${n}`:""}
+function autoAlcance(d){return (d.nombre||"").trim()}
 function toExcelDate(iso){const p=parseISO(iso);return p?new Date(Date.UTC(p.y,p.m-1,p.d)):null}
 
 function fillWorkbook(wb,d){
@@ -394,7 +516,7 @@ $("openFile").addEventListener("change",async e=>{
 
 $("newBtn").addEventListener("click",()=>{$("confirmNew").hidden=false});
 $("cancelNew").addEventListener("click",()=>{$("confirmNew").hidden=true});
-function blank(){const t=new Date();return {fechaLlegada:`${t.getFullYear()}-${pad(t.getMonth()+1)}-${pad(t.getDate())}`,_auto:{asuntoCorreo:true,asuntoOferta:true,alcance:true}}}
+function blank(){const t=new Date();return {fechaLlegada:`${t.getFullYear()}-${pad(t.getMonth()+1)}-${pad(t.getDate())}`,entrega:"DDP, ",formaPago:"A CONVENIR",_auto:{asuntoCorreo:true,asuntoOferta:true,alcance:true}}}
 $("okNew").addEventListener("click",()=>{
   apply(blank());
   $("confirmNew").hidden=true;status("");$("nombre").focus();
@@ -408,7 +530,249 @@ document.querySelectorAll("[data-copy]").forEach(b=>b.addEventListener("click",(
 }));
 
 let saved=null;try{saved=JSON.parse(localStorage.getItem(STORE)||"null")}catch(e){}
-apply(saved&&saved.nombre!==undefined?saved:blank());
+if(saved&&saved.nombre!==undefined){if(!(saved.entrega||"").trim())saved.entrega="DDP, ";if(!(saved.formaPago||"").trim())saved.formaPago="A CONVENIR";apply(saved)}else apply(blank());
+</script>
+<script>
+/* ---------- Logística: generación del correo (puro) ---------- */
+const LG={};
+(function(){
+const DIAS=["domingo","lunes","martes","miércoles","jueves","viernes","sábado"];
+const p2=n=>String(n).padStart(2,"0");
+const parse=s=>{const m=/^(\d{4})-(\d{2})-(\d{2})$/.exec(s||"");return m?new Date(+m[1],+m[2]-1,+m[3]):null};
+const fd=s=>{const d=parse(s);return d?`${p2(d.getDate())}/${p2(d.getMonth()+1)}/${d.getFullYear()}`:""};
+const dia=s=>{const d=parse(s);return d?DIAS[d.getDay()]:""};
+const cap=t=>t?t[0].toUpperCase()+t.slice(1):t;
+const fdl=s=>s?`${dia(s)} ${fd(s)}`:"";                       // martes 25/08/2026
+const dias=(a,b)=>{const x=parse(a),y=parse(b);if(!x||!y)return null;return Math.round((Date.UTC(y.getFullYear(),y.getMonth(),y.getDate())-Date.UTC(x.getFullYear(),x.getMonth(),x.getDate()))/864e5)+1};
+const hora=t=>{const m=/^(\d{2}):(\d{2})$/.exec(t||"");if(!m)return"";let h=+m[1];const ap=h>=12?"p. m.":"a. m.";h=h%12||12;return `${h}:${m[2]} ${ap}`};
+const trimDot=s=>(s||"").trim().replace(/[.\s]+$/,"");
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const joinY=a=>a.length<2?a.join(""):a.slice(0,-1).join(", ")+" y "+a[a.length-1];
+
+function itemLine(it,d){
+  if(it.tipo==="ruta"){
+    const o=(it.origen||"").trim(),de=(it.destino||"").trim();
+    const tramo=[o,de].filter(Boolean).join(" – ")||"Ruta";
+    let t=`Movilización ${it.medio||"terrestre"}`;
+    if(it.fecha)t+=` el ${fd(it.fecha)}`;
+    if(trimDot(it.complemento))t+=` ${trimDot(it.complemento)}`;
+    if(it.hora)t+=`, con salida${o?` desde ${o}`:""} aproximadamente a las ${hora(it.hora)}`;
+    return [tramo,/\.$/.test(t)?t:t+"."];
+  }
+  if(it.tipo==="hotel"){
+    const c=(it.ciudad||"").trim(),h=(it.hotel||"").trim();
+    let t="Se requiere hospedaje"+(h?` en el ${h}`:"");
+    if(it.desde&&it.hasta&&it.hasta!==it.desde)t+=` para las noches del ${fd(it.desde)} al ${fd(it.hasta)}`;
+    else if(it.desde)t+=` para la noche del ${fd(it.desde)}`;
+    return [c?`Hospedaje en ${c}`:"Hospedaje",t+"."];
+  }
+  if(it.tipo==="campo"){
+    const a=it.desde||d.fechaIngreso,b=it.hasta||d.fechaSalida;
+    let t="";
+    if(a&&b)t=`Desde el ${fd(a)} hasta el ${fd(b)}, dentro de las instalaciones del campo.`;
+    else if(a)t=`Desde el ${fd(a)}, dentro de las instalaciones del campo.`;
+    else t="Dentro de las instalaciones del campo.";
+    return ["Hospedaje en campo",t];
+  }
+  if(it.tipo==="salida"){const f=it.fecha||d.fechaSalida;return ["Salida de campo",f?fd(f)+".":"Por definir."]}
+  if(it.tipo==="nota"){const ti=(it.titulo||"").trim(),tx=(it.texto||"").trim();if(!ti&&!tx)return null;return ti?[ti,tx]:[null,tx]}
+  return null;
+}
+
+/* bloques: {t:"p",text} | {t:"ul",items:[[label,text]]} | {t:"name",text} | {t:"h",text} | {t:"gap"} */
+function build(d){
+  const B=[];const P=text=>B.push({t:"p",text});
+  const ings=(d.ingenieros||"").split(/\r?\n/).map(s=>s.trim()).filter(Boolean).map(s=>s.toUpperCase());
+  P("Buen día,");
+  P(`Solicito su apoyo con la gestión del viaje para el siguiente ingreso a campo ${ings.length>1?"de los ingenieros":"del ingeniero"}:`);
+  (ings.length?ings:["[NOMBRE DEL INGENIERO]"]).forEach(n=>B.push({t:"name",text:n}));
+  if(d.fechaViaje)P(`Fecha de viaje: ${cap(fdl(d.fechaViaje))}`);
+  const gen=[];
+  if(d.fechaIngreso)gen.push(["Fecha de ingreso a campo",cap(fdl(d.fechaIngreso))+"."]);
+  const n=dias(d.fechaIngreso,d.fechaSalida);
+  if(n&&n>0)gen.push(["Tiempo estimado de duración en campo",`${n} ${n===1?"día":"días"}, desde el ${fdl(d.fechaIngreso)} hasta el ${fdl(d.fechaSalida)}.`]);
+  if((d.cliente||"").trim())gen.push(["Cliente",d.cliente.trim()]);
+  if(trimDot(d.servicio))gen.push(["Servicio",trimDot(d.servicio)+"."]);
+  const ct=[(d.contactoNombre||"").trim(),(d.contactoTel||"").trim()].filter(Boolean).join(" ");
+  if(ct)gen.push(["Contacto HSE / Encargado del proyecto",ct]);
+  if(gen.length)B.push({t:"ul",items:gen});
+  const lines=(d.items||[]).map(it=>itemLine(it,d)).filter(Boolean);
+  if(d.movInterna)lines.push(["Requiere movilización interna",d.movInterna+"."]);
+  if(d.viaticos)lines.push(["Requiere viáticos / manutención",d.viaticos+"."]);
+  if(lines.length){B.push({t:"h",text:"LOGÍSTICA:",sub:(d.items||[]).length?"Ruta:":""});B.push({t:"ul",items:lines})}
+  const acts=(d.actividades||"").split(/\r?\n/).map(s=>s.trim().replace(/^[-*•·]\s*/,"")).filter(Boolean);
+  if(d.incluirActividades&&acts.length){B.push({t:"h",text:"ACTIVIDADES:"});B.push({t:"ul",items:acts.map(a=>[null,/[.;:]$/.test(a)?a:a+"."])})}
+  const serv=[];
+  if((d.items||[]).some(i=>i.tipo==="ruta"))serv.push("transporte");
+  if((d.items||[]).some(i=>i.tipo==="hotel"||i.tipo==="campo"))serv.push("hospedaje");
+  if(d.viaticos==="Sí")serv.push("viáticos");
+  P(serv.length?`Agradezco su apoyo con la gestión de los servicios de ${joinY(serv)} correspondientes.`:"Agradezco su apoyo con la gestión correspondiente.");
+  P("Quedo atento a cualquier información adicional que se requiera para la coordinación del viaje.");
+  P("Cordialmente,");
+  return B;
+}
+function toText(B){
+  const out=[];
+  B.forEach((b,i)=>{
+    if(b.t==="p")out.push(b.text,"");
+    else if(b.t==="h"){out.push(b.text);if(b.sub)out.push(b.sub);out.push("")}
+    else if(b.t==="name")out.push(b.text,...(B[i+1]&&B[i+1].t==="name"?[]:[""]));
+    else if(b.t==="ul"){b.items.forEach(([l,t])=>out.push("• "+(l?`${l}: ${t}`:t)));out.push("")}
+    else if(b.t==="sign"){out.pop();out.push(...b.lines)}
+  });
+  return out.join("\n").replace(/\n{3,}/g,"\n\n").trim();
+}
+function toHTML(B){
+  const S='style="margin:0 0 11pt 0"';
+  let h='<div style="font-family:Calibri,Arial,sans-serif;font-size:11pt;line-height:1.35">';
+  B.forEach((b,i)=>{
+    if(b.t==="p")h+=`<p ${S}>${esc(b.text)}</p>`;
+    else if(b.t==="h")h+=`<p ${S}><b>${esc(b.text)}</b>${b.sub?"<br>"+esc(b.sub):""}</p>`;
+    else if(b.t==="name")h+=`<p style="margin:0 0 ${B[i+1]&&B[i+1].t==="name"?"0":"11pt"} 0"><b>${esc(b.text)}</b></p>`;
+    else if(b.t==="ul")h+=`<ul style="margin:0 0 11pt 0;padding-left:24px">`+b.items.map(([l,t])=>`<li style="margin:0 0 3pt 0">${l?`<b>${esc(l)}:</b> `:""}${esc(t)}</li>`).join("")+"</ul>";
+    else if(b.t==="sign")h=h.replace(/<\/p>$/,"")+b.lines.map(x=>"<br>"+esc(x)).join("")+"</p>";
+  });
+  return h+"</div>";
+}
+function asunto(d){
+  const ings=(d.ingenieros||"").split(/\r?\n/).map(s=>s.trim()).filter(Boolean).map(s=>s.toUpperCase());
+  return ["Solicitud logística ingreso a campo",ings.join(", "),(d.cliente||"").trim(),fd(d.fechaViaje)].filter(Boolean).join(" – ");
+}
+function duracion(d){const n=dias(d.fechaIngreso,d.fechaSalida);if(n==null)return"";if(n<1)return"La salida de campo es anterior al ingreso.";return `${n} ${n===1?"día":"días"} en campo, del ${fdl(d.fechaIngreso)} al ${fdl(d.fechaSalida)}.`}
+Object.assign(LG,{build,toText,toHTML,asunto,duracion});
+})();
+if(typeof module!=="undefined")module.exports=LG;
+
+/* ---------- Logística: interfaz ---------- */
+(function(){
+const $=id=>document.getElementById(id);
+const KEY="lg-draft-v1",MEM="lg-memoria-v1";
+const SIMPLE=["ingenieros","fechaViaje","fechaIngreso","fechaSalida","cliente","servicio","contactoNombre","contactoTel","actividades"];
+const TIPOS={ruta:"Ruta",hotel:"Hospedaje en hotel",campo:"Hospedaje en campo",salida:"Salida de campo",nota:"Línea libre"};
+let uid=1;const nid=()=>"i"+(uid++)+Date.now().toString(36);
+let items=[];
+const lsGet=(k,f)=>{try{const v=localStorage.getItem(k);return v==null?f:JSON.parse(v)}catch(e){return f}};
+const lsSet=(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}};
+
+// Sí/No
+document.querySelectorAll("[data-lgyn]").forEach(el=>{const k=el.dataset.lgyn;["Sí","No"].forEach(v=>{const l=document.createElement("label");l.className="chip";l.innerHTML=`<input type="radio" name="lg-${k}" value="${v}"><span>${v}</span>`;el.append(l)})});
+
+function field(it,key,label,type,extra){
+  const id=`lg-${it.id}-${key}`;const v=it[key]||"";
+  if(type==="select")return `<div class="f"><label for="${id}">${label}</label><select id="${id}" data-k="${key}">${extra.map(o=>`<option${o===v?" selected":""}>${o}</option>`).join("")}</select></div>`;
+  return `<div class="f"><label for="${id}">${label}</label><input type="${type}" id="${id}" data-k="${key}" ${extra||""}></div>`;
+}
+function renderItems(){
+  const box=$("lg-items");box.innerHTML="";
+  if(!items.length){box.innerHTML='<p class="empty">Sin tramos. Agrega una ruta, un hospedaje o una línea libre.</p>'}
+  items.forEach((it,i)=>{
+    const el=document.createElement("div");el.className="item";el.dataset.id=it.id;
+    let body="";
+    if(it.tipo==="ruta")body=`<div class="row">${field(it,"origen","Origen","text",'list="lg-dl-ciudades" placeholder="Ciudad de origen"')}${field(it,"destino","Destino","text",'list="lg-dl-ciudades" placeholder="Ciudad de destino"')}${field(it,"fecha","Fecha","date")}</div>
+      <div class="row">${field(it,"medio","Movilización","select",["terrestre","aérea","fluvial"])}${field(it,"hora","Hora de salida (opcional)","time")}${field(it,"complemento","Complemento (opcional)","text",'placeholder="para ingreso a campo"')}</div>`;
+    else if(it.tipo==="hotel")body=`<div class="row">${field(it,"ciudad","Ciudad","text",'list="lg-dl-ciudades" placeholder="Ciudad"')}${field(it,"hotel","Hotel","text",'list="lg-dl-hoteles" placeholder="Nombre del hotel"')}</div>
+      <div class="row">${field(it,"desde","Primera noche","date")}${field(it,"hasta","Última noche (si es más de una)","date")}</div>`;
+    else if(it.tipo==="campo")body=`<div class="row">${field(it,"desde","Desde","date")}${field(it,"hasta","Hasta","date")}</div><p class="hint" style="margin:0">Si las dejas vacías se usan las fechas de ingreso y salida de campo.</p>`;
+    else if(it.tipo==="salida")body=`<div class="row">${field(it,"fecha","Fecha","date")}</div><p class="hint" style="margin:0">Vacía usa la fecha de salida de campo.</p>`;
+    else body=`<div class="row">${field(it,"titulo","Título (opcional)","text",'placeholder="Título"')}${field(it,"texto","Texto","text",'placeholder="Detalle"')}</div>`;
+    el.innerHTML=`<div class="itemhead"><span class="tag t-${it.tipo}">${TIPOS[it.tipo]}</span><span class="tools">
+      <button type="button" class="ic" data-act="up" aria-label="Subir"${i===0?" disabled":""}>↑</button>
+      <button type="button" class="ic" data-act="down" aria-label="Bajar"${i===items.length-1?" disabled":""}>↓</button>
+      <button type="button" class="ic del" data-act="del" aria-label="Quitar">✕</button></span></div>${body}`;
+    el.querySelectorAll("[data-k]").forEach(inp=>{if(inp.tagName!=="SELECT")inp.value=it[inp.dataset.k]||""});
+    box.append(el);
+  });
+}
+$("lg-items").addEventListener("input",e=>{const k=e.target.dataset.k;if(!k)return;const id=e.target.closest(".item").dataset.id;const it=items.find(x=>x.id===id);if(it){it[k]=e.target.value;update()}});
+$("lg-items").addEventListener("change",e=>{const k=e.target.dataset.k;if(!k)return;const it=items.find(x=>x.id===e.target.closest(".item").dataset.id);if(it){it[k]=e.target.value;update()}});
+$("lg-items").addEventListener("click",e=>{
+  const b=e.target.closest("[data-act]");if(!b)return;const id=b.closest(".item").dataset.id;const i=items.findIndex(x=>x.id===id);
+  if(b.dataset.act==="del")items.splice(i,1);
+  else{const j=b.dataset.act==="up"?i-1:i+1;if(j<0||j>=items.length)return;[items[i],items[j]]=[items[j],items[i]]}
+  renderItems();update();
+});
+document.querySelectorAll("[data-add]").forEach(b=>b.addEventListener("click",()=>{
+  const tipo=b.dataset.add;const it={id:nid(),tipo};
+  if(tipo==="ruta"){it.medio="terrestre";const prev=[...items].reverse().find(x=>x.tipo==="ruta");if(prev){it.origen=prev.destino||"";it.destino=prev.origen||""}else it.fecha=$("lg-fechaViaje").value}
+  if(tipo==="hotel"){const prev=[...items].reverse().find(x=>x.tipo==="ruta");if(prev){it.ciudad=prev.destino||"";it.desde=prev.fecha||""}}
+  items.push(it);renderItems();update();
+  const first=$("lg-items").lastElementChild.querySelector("input,select");if(first)first.focus();
+}));
+
+function collect(){
+  const d={};SIMPLE.forEach(k=>d[k]=$("lg-"+k).value);
+  ["movInterna","viaticos"].forEach(k=>d[k]=(document.querySelector(`input[name=lg-${k}]:checked`)||{}).value||"");
+  d.incluirActividades=$("lg-incluirActividades").checked;d.items=items;return d;
+}
+function apply(d){
+  SIMPLE.forEach(k=>$("lg-"+k).value=d[k]||"");
+  ["movInterna","viaticos"].forEach(k=>document.querySelectorAll(`input[name=lg-${k}]`).forEach(i=>i.checked=i.value===d[k]));
+  $("lg-incluirActividades").checked=d.incluirActividades!==false;
+  items=(d.items||[]).map(x=>Object.assign({},x,{id:x.id||nid()}));renderItems();update();
+}
+function update(){
+  const d=collect();
+  $("lg-actWrap").hidden=!d.incluirActividades;
+  $("lg-duracion").textContent=LG.duracion(d);
+  $("lg-asunto").textContent=LG.asunto(d)||"—";
+  $("lg-preview").innerHTML=LG.toHTML(LG.build(d));
+  lsSet(KEY,d);
+  return d;
+}
+const form=$("lg");
+form.addEventListener("input",e=>{if(!e.target.dataset.k)update()});
+form.addEventListener("change",e=>{if(!e.target.dataset.k)update()});
+form.addEventListener("submit",e=>e.preventDefault());
+
+// sugerencias
+const CIUDADES=["Acacías","Bogotá","Tunja","Montería","Villanueva","Yopal","Villavicencio","Aguazul","Tauramena","Paz de Ariporo","Maní","Orocué","Trinidad","Puerto Gaitán","Puerto López","Castilla La Nueva","Granada","Arauca","Tame","Saravena","Sogamoso","Duitama","Paipa","Barrancabermeja","Puerto Boyacá","Bucaramanga","Cúcuta","Neiva","Coveñas","Cartagena","Barranquilla","Medellín","Cali"];
+function fillLists(){const m=lsGet(MEM,{});m.ciudades=[...(m.ciudades||[]),...CIUDADES.filter(c=>!(m.ciudades||[]).some(x=>x.toLowerCase()===c.toLowerCase()))];[["ciudades","lg-dl-ciudades"],["hoteles","lg-dl-hoteles"],["clientes","lg-dl-clientes"],["contactos","lg-dl-contactos"]].forEach(([k,id])=>{const dl=$(id);dl.innerHTML="";(m[k]||[]).forEach(v=>{const o=document.createElement("option");o.value=v;dl.append(o)})})}
+function remember(d){
+  const m=lsGet(MEM,{});const add=(k,v)=>{v=(v||"").trim();if(!v)return;m[k]=[v,...(m[k]||[]).filter(x=>x.toLowerCase()!==v.toLowerCase())].slice(0,40)};
+  d.items.forEach(it=>{add("ciudades",it.origen);add("ciudades",it.destino);add("ciudades",it.ciudad);add("hoteles",it.hotel)});
+  add("clientes",d.cliente);add("contactos",d.contactoNombre);lsSet(MEM,m);fillLists();
+}
+// contacto: autocompletar teléfono
+$("lg-contactoNombre").addEventListener("change",()=>{const t=lsGet("lg-tels-v1",{})[$("lg-contactoNombre").value.trim().toLowerCase()];if(t&&!$("lg-contactoTel").value){$("lg-contactoTel").value=t;update()}});
+function rememberTel(d){const n=(d.contactoNombre||"").trim().toLowerCase(),t=(d.contactoTel||"").trim();if(n&&t){const m=lsGet("lg-tels-v1",{});m[n]=t;lsSet("lg-tels-v1",m)}}
+
+function status(t,warn){const s=$("lg-status");s.textContent=t;s.className="msg"+(warn?" warn":"");s.hidden=!t;if(t&&!warn)setTimeout(()=>{if(s.textContent===t)s.hidden=true},3500)}
+function selectNode(el){const r=document.createRange();r.selectNodeContents(el);const s=getSelection();s.removeAllRanges();s.addRange(r)}
+$("lg-copy").addEventListener("click",()=>{
+  const d=update();const B=LG.build(d);const html=LG.toHTML(B),text=LG.toText(B);
+  remember(d);rememberTel(d);
+  const ok=()=>status("Correo copiado. Pégalo en el cuerpo del correo.");
+  const fallbackText=()=>{try{navigator.clipboard.writeText(text).then(()=>status("Correo copiado como texto simple."),()=>{selectNode($("lg-preview"));status("Tu navegador no permitió copiar. El correo quedó seleccionado: usa Ctrl+C.",true)})}catch(e){selectNode($("lg-preview"));status("El correo quedó seleccionado: usa Ctrl+C.",true)}};
+  try{
+    if(window.ClipboardItem&&navigator.clipboard&&navigator.clipboard.write){
+      navigator.clipboard.write([new ClipboardItem({"text/html":new Blob([html],{type:"text/html"}),"text/plain":new Blob([text],{type:"text/plain"})})]).then(ok,fallbackText);
+    }else fallbackText();
+  }catch(e){fallbackText()}
+});
+$("lg-copyAsunto").addEventListener("click",()=>{const b=$("lg-copyAsunto");const t=$("lg-asunto").textContent;try{navigator.clipboard.writeText(t).then(()=>{b.textContent="Copiado";setTimeout(()=>b.textContent="Copiar",1400)},()=>selectNode($("lg-asunto")))}catch(e){selectNode($("lg-asunto"))}});
+
+function blank(){return {movInterna:"No",viaticos:"Sí",incluirActividades:true,items:[{id:nid(),tipo:"ruta",medio:"terrestre"},{id:nid(),tipo:"hotel"},{id:nid(),tipo:"ruta",medio:"terrestre"}]}}
+$("lg-new").addEventListener("click",()=>{$("lg-confirm").hidden=false});
+$("lg-cancelNew").addEventListener("click",()=>{$("lg-confirm").hidden=true});
+$("lg-okNew").addEventListener("click",()=>{apply(blank());$("lg-confirm").hidden=true;status("");$("lg-ingenieros").focus()});
+
+fillLists();
+apply(lsGet(KEY,null)||blank());
+})();
+
+/* ---------- pestañas ---------- */
+(function(){
+  const tabs=[...document.querySelectorAll(".tabs [data-tab]")];
+  function show(name){
+    if(!document.getElementById("tab-"+name))name="rfq";
+    document.querySelectorAll(".tab").forEach(s=>s.hidden=s.id!=="tab-"+name);
+    tabs.forEach(t=>t.setAttribute("aria-selected",t.dataset.tab===name?"true":"false"));
+    try{localStorage.setItem("tab-v1",name)}catch(e){}
+  }
+  tabs.forEach(t=>t.addEventListener("click",()=>{show(t.dataset.tab);try{history.replaceState(null,"","#"+t.dataset.tab)}catch(e){}}));
+  let start=(location.hash||"").slice(1);if(!start){try{start=localStorage.getItem("tab-v1")||""}catch(e){}}
+  show(start||"rfq");
+})();
 </script>
 
 </body>
